@@ -37,6 +37,7 @@ class APICall extends React.Component {
                     open: false,
                     name: ''
                 })
+                //lifting state
                 this.props.addStock(parsedResponse.body)
             } else {
                 this.setState({
@@ -66,7 +67,7 @@ class APICall extends React.Component {
                 Add Stock
             </Button>
             <Modal open={this.state.open} style={{'maxWidth': '300px'}}>
-                <Segment>
+                <Segment inverted>
                     <Button color="red" style={{'left':'265px','top':'-15px', 'position': 'absolute'}}onClick={()=>{this.setState({open:false})}}>
                         <Icon fitted name="x" ></Icon>
                     </Button>
@@ -76,7 +77,7 @@ class APICall extends React.Component {
                     <Header textAlign="center">
                         {this.state.message}
                     </Header>
-                    <Form size="large" onSubmit={this.handleSubmit} required>
+                    <Form inverted size="large" onSubmit={this.handleSubmit} required>
                             <Form.Input 
                                 fluid
                                 icon="money"
