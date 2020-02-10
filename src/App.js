@@ -11,30 +11,21 @@ class App extends React.Component {
     super();
     this.state = { 
       connection: '',
-      userStocks: [],
-      notifications: ['Testing input', 'Hey buddy']
     };
   }
-  addStock = (stockData) => {
-    console.log(stockData.find(/symbol/))
-      this.setState({
-          userStocks: [...this.state.userStocks, stockData],
-          notifications: [this.state.notifications, 'Added New stock']
-      });
-  }
+  // addStock = (stockData) => {
+  //   let stockName = stockData.match(/("symbol"):"(.*?)"/)[2]
+  //     this.setState({
+  //         userStocks: [...this.state.userStocks, stockData],
+  //         notifications: [this.state.notifications, `Added New stock: ${stockName}`]
+  //     });
+  // }
   render() {
     return (
         <React.Fragment>
         <Segment inverted>
           <Menu inverted pointing secondary>
             <Menu.Item position="right" name='home'/>
-            <Menu.Item name='notifications'>
-              <Icon name="bell"></Icon>
-              <Dropdown>
-                <Dropdown.Menu >
-                </Dropdown.Menu>
-              </Dropdown>
-            </Menu.Item>
             <Menu.Item name='friends'/>
           </Menu>
         </Segment>
