@@ -1,33 +1,17 @@
 import React from 'react';
+import {Form, FormInput, Segment, Button, Modal, FormField, Grid, Header} from 'semantic-ui-react'
+import 'semantic-ui-css/semantic.min.css'
+import './base.css'
 import APICall from './APIcall.js'
 import DisplayStocks from './DisplayStocks.js'
-import {AppBar, Toolbar, Paper, IconButton, Typography, Button, Grid, DialogActions} from '@material-ui/core'
-import { ThemeProvider } from '@material-ui/styles';
-import { createMuiTheme } from '@material-ui/core/styles';
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: '#5a7c8d',
-      main: '#2d5060',
-      dark: '#002836',
-      contrastText: '#fff',
-    },
-    secondary: {
-      light: '#80e27e',
-      main: '#4caf50',
-      dark: '#087f23',
-      contrastText: '#000',
-    },
-  },
-});
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = { 
       connection: '',
-      data: ''
+      userStocks: []
     };
   }
   getUserStocks = () => {
@@ -37,24 +21,19 @@ class App extends React.Component {
   getPresetStocks = () => {
 
   }
+  addStock = (stockData) => {
+      this.setState=({
+          userStocks: [...stockData]
+      })
+  }
   render() {
     return (
-      <ThemeProvider theme={theme}>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6">
-              Nomi Stocks
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Grid justify="center" container spacing={10}>
-          <Grid item color="primary">
-              <Paper color="primary" style={{padding: '10%', textAlign: 'center'}}><APICall/></Paper>
-          </Grid>
-        </Grid>
-        <Button onClick={this.getUserStocks}>Stonks</Button>
-        <DisplayStocks/>
-      </ThemeProvider>
+      <React.Fragment>
+      <Header>
+        Yes
+      </Header>
+      <APICall addStock={this.addStock}/>
+      </React.Fragment>
     )
   }
   

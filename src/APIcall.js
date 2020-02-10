@@ -1,5 +1,6 @@
 import React from 'react'
-import { Button, Grid, TextField, Dialog, Container, DialogActions, Input, DialogContent, DialogContentText, DialogTitle} from '@material-ui/core'
+import {Form, Segment, Icon, Button, Modal, Header} from 'semantic-ui-react'
+import 'semantic-ui-css/semantic.min.css'
 let request = require('request')
 require('dotenv')
 
@@ -9,7 +10,7 @@ class APICall extends React.Component {
         this.state = {
             name: '',
             message: '',
-            messageDialog: false
+            open: false
         }
     }
     stockAPIcall = (symb) => {
@@ -33,13 +34,14 @@ class APICall extends React.Component {
             console.log(parsedResponse.body.length)
             if(parsedResponse.body.length > 2) {
                 this.setState({
-                    message: 'Succesfully added stock',
-                    messageDialog: true
-              })
+                    open: false,
+                    name: ''
+                })
+                this.props.addStock(parsedResponse.body)
             } else {
                 this.setState({
                     message: 'Please enter a Valid Stock',
-                    messageDialog: true
+                    name: ''
                 })
             }
         }
@@ -57,37 +59,41 @@ class APICall extends React.Component {
         console.log(stockName)
         await this.stockAPIcall(stockName)
     }
-    handleDialogClose = (e) => {
-        this.setState({
-            messageDialog: false
-        })
-    }
     render() {
         return (
             <div>
-                <Container maxWidth="sm">
-                <Dialog onClose={this.handleDialogClose} open={this.state.messageDialog}>
-                    <DialogTitle>{this.state.message}</DialogTitle>
-                    <DialogActions>
-                        <Button variant="outlined" color="primary" onClick={this.handleDialogClose}>Close</Button>
-                    </DialogActions>
-                </Dialog>
-                <form onSubmit={this.handleSubmit}>
-                    <TextField
-                        placeholder="Stock"
-                        value={this.state.name}
-                        margin="normal"
-                        name="name"
-                        color="primary"
-                        fullWidth
-                        variant="standard"
-                        onChange={this.handleChange}
-                        type="string"
-                        required={true}
-                    />
-                    <Button variant="contained" color="primary" type="submit">SUBMIT</Button>
-                </form>
-                </Container>
+            <Button color="green" onClick={() => this.setState({ open: true})}>
+                Add Stock
+            </Button>
+            <Modal open={this.state.open} style={{'maxWidth': '300px'}}>
+                <Segment>
+                    <Button color="red" style={{'left':'265px','top':'-15px', 'position': 'absolute'}}onClick={()=>{this.setState({open:false})}}>
+                        <Icon fitted name="x" ></Icon>
+                    </Button>
+                    <Header as="h1" textAlign="center">
+                        Add Stock
+                    </Header>
+                    <Header textAlign="center">
+                        {this.state.message}
+                    </Header>
+                    <Form size="large" onSubmit={this.handleSubmit} required>
+                            <Form.Input 
+                                fluid
+                                icon="money"
+                                iconPosition='left'
+                                placeholder='name'
+                                value={this.state.name}
+                                onChange={this.handleChange}
+                                name="name"
+                                required
+                            />
+                        {/* Check if minimum fields have  */}
+                        <Button onClick={this.handleSubmit} color="linkedin" fluid size="large">
+                            Add
+                        </Button>
+                    </Form>
+                </Segment>
+            </Modal>
             </div>
         )
     }
