@@ -1,6 +1,6 @@
 import React from 'react'
 
-class APICall extends React.Component {
+class DisplayStocks extends React.Component {
     constructor() {
         super()
         this.state = {
@@ -16,4 +16,4 @@ class APICall extends React.Component {
     }
 }
 
-export default APICall;
+export default DisplayStocks;
