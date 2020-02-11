@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Grid, Header, Message, Segment, Dropdown} from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Segment} from 'semantic-ui-react'
 
 class LogRegister extends React.Component {
     constructor() {
@@ -42,7 +42,7 @@ class LogRegister extends React.Component {
         }) 
         const parsedRegisterResponse = await response.json() 
         if (parsedRegisterResponse.status === 200) {
-            this.props.login(parsedRegisterResponse.data)
+            this.props.login(parsedRegisterResponse.data, parsedRegisterResponse.money)
         } else {
             this.setState({
                 message: 'Register failed, Username or email already taken'
@@ -59,7 +59,7 @@ class LogRegister extends React.Component {
         })
         const parsedLoginResponse = await response.json()
         if (parsedLoginResponse.status === 200) {
-            this.props.login(parsedLoginResponse.data)
+            this.props.login(parsedLoginResponse.data, parsedLoginResponse.money)
         } else {
             this.setState({
                 message: 'Login failed, Wrong username or password'

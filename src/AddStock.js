@@ -1,7 +1,6 @@
 import React from 'react'
-import {Form, Segment, Icon, Button, Modal, Header} from 'semantic-ui-react'
+import {Form, Segment, Icon, Button, Modal, Header, Menu} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
-let request = require('request')
 require('dotenv')
 
 class AddStock extends React.Component {
@@ -10,7 +9,6 @@ class AddStock extends React.Component {
         this.state = {
             name: '',
             message: '',
-            open: false
         }
     }
     handleChange = (e) => {
@@ -29,7 +27,6 @@ class AddStock extends React.Component {
             const parsedResponse = await response.json()
             if (parsedResponse.status === 200) {
                 this.setState({
-                    open: false,
                     message: '',
                     name: ''
                 })
@@ -50,14 +47,8 @@ class AddStock extends React.Component {
     render() {
         return (
             <div>
-            <Button color="green" onClick={() => this.setState({ open: true})}>
-                Add Stock
-            </Button>
-            <Modal open={this.state.open} style={{'maxWidth': '300px'}}>
+            <Modal trigger={<Menu.Item  name="add"></Menu.Item>} style={{'maxWidth': '300px'}}>
                 <Segment inverted>
-                    <Button color="red" style={{'left':'265px','top':'-15px', 'position': 'absolute'}}onClick={()=>{this.setState({open:false, message: ''})}}>
-                        <Icon fitted name="x" ></Icon>
-                    </Button>
                     <Header as="h1" textAlign="center">
                         Add Stock
                     </Header>
