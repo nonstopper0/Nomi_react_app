@@ -20,12 +20,6 @@ class App extends React.Component {
       loadeddata: false
     };
   }
-  // addStock = async(stockData) => {
-  //   let stockName = stockData.match(/("symbol"):"(.*?)"/)[2]
-  //     this.setState({
-  //         notification: [`Added New stock: ${stockName}`]
-  //     });
-  // }
   login = (id, money) => {
     this.setState({
       logged: true,

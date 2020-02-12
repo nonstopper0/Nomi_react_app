@@ -122,7 +122,7 @@ class DisplayStocks extends React.Component {
 
     render() {
         const style= {
-            'background-color': 'rgb(48,48,48',
+            'backgroundColor': 'rgb(48,48,48',
             'color': 'white'
         }
         return (
@@ -134,7 +134,7 @@ class DisplayStocks extends React.Component {
                                     Add Stock
                                 </Header>
                                 <Header textAlign="center">
-                                    {this.state.message}
+                                    <span style={{'color': 'white'}}>{this.state.message}</span>
                                 </Header>
                                 <Form size="large" onSubmit={this.handleSubmit} required>
                                         <input
@@ -163,28 +163,31 @@ class DisplayStocks extends React.Component {
                            const compared = (data.data[indexOfLast].high - (data.data[indexOfLast-1].high)).toFixed(2)
                         return (
                         <Segment style={{'background-color': 'rgb(38,38,38)'}} key={data.data[0].high}>
-                        <Header as="h1" color="orange" textAlign="center">{data.name}</Header>
-                        <Header style={{'color': 'white'}} textAlign='center'>Todays High: {data.data[indexOfLast].high}</Header>
-                        <Header color={Math.sign(compared) == '-' ? 'red' : 'green'} textAlign='center'>Difference from last market day high: <span color="green">{compared}</span></Header>
-                        <AreaChart
-                            key={data.name}
-                            width={500}
-                            height={300}
-                            data={data.data}
-                            margin={{
-                            top: 5, right: 30, left: 20, bottom: 5,
-                            }}
-                        >
-                            <CartesianGrid fill="rgb(48,48,48)" />
-                            <XAxis dataKey="date" />
-                            <YAxis allowDataOverflow type="number" domain={[dataMin=> (data.data[0].low - data.data[0].low*.2), 'dataMax + 30']}/>
-                            <Tooltip />
-                            <Legend color="white"/>
-                            <Brush fill="rgb(58,58,58)"/>
-                            <Area type="monotone" dataKey="high" stroke="red" fill="none" />
-                            <Area type="monotone" dataKey="low" stroke="green" fill="green"/>
-                        </AreaChart>
-                        <Button color="red" fluid onClick={()=> this.removeStock(data.name)}>Stop Watching</Button>
+                            <Button style={{'position': 'absolute', 'left': '73%'}}color="grey" onClick={()=> this.removeStock(data.name)}>Stop Watching</Button>
+                            <Header as="h1" color="orange" textAlign="center">{data.name}</Header>
+                            <Header style={{'color': 'white'}} textAlign='center'>Todays High: {data.data[indexOfLast].high}</Header>
+                            <Header color={Math.sign(compared) == '-' ? 'red' : 'green'} textAlign='center'>Difference from last market day high: <span color="green">{compared}</span></Header>
+                            <AreaChart
+                                key={data.name}
+                                width={500}
+                                height={300}
+                                data={data.data}
+                                margin={{
+                                top: 5, right: 30, left: 20, bottom: 5,
+                                }}
+                            >
+                                <CartesianGrid fill="rgb(48,48,48)" />
+                                <XAxis dataKey="date" />
+                                <YAxis allowDataOverflow type="number" domain={[dataMin=> (data.data[0].low - data.data[0].low*.2), 'dataMax + 30']}/>
+                                <Tooltip labelStyle={{'color':'black'}}/>
+                                <Legend formatter={(value, entry) => { 
+                                    entry['color'] = 'rgb(120,120,120)'
+                                const { color } = entry; 
+                                return <span style={{color}}>{value}</span>}}/>
+                                <Brush fill="rgb(58,58,58)"/>
+                                <Area type="monotone" dataKey="high" stroke="gray" fill="none" />
+                                <Area type="monotone" dataKey="low" stroke="gray" fill="green"/>
+                            </AreaChart>
                         </Segment>
                         )
                     }): null }

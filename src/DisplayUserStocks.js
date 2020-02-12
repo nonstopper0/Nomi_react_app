@@ -16,7 +16,7 @@ function DisplayUserStocks(props) {
                          <List.Item key={object}>{object}</List.Item>
                      )
                  })
-}
+                }               
                 </List>
             </Segment>
         )}
