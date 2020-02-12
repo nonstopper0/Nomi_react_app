@@ -1,19 +1,25 @@
 import React from 'react'
-import { Button} from 'semantic-ui-react'
+import { Button, Header, Segment, Form, Menu, Modal, Icon, Input} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
-import StockRender from './StockRender.js'
+import {Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, AreaChart, Brush, ResponsiveContainer} from 'recharts'
 
 class DisplayStocks extends React.Component {
     constructor() {
         super()
         this.state = {
-            formattedData: []
+            formattedData: [],
+            isLoaded: false,
+            name: '',
+            message: '',
         }
     }
     //get stock data from user
     updateStocks = async(e) => {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/stock/all/${this.props.loggedID}`, {
             method: 'GET'
+        })
+        this.setState({
+            formattedData: []
         })
         const parsedResponse = await response.json()
         for (let stock in parsedResponse.data) {
@@ -26,7 +32,6 @@ class DisplayStocks extends React.Component {
                     updated: lastUpdated,
                     data: await this.formatData(stockData)
                 }
-                console.log(stockObject)
                 this.setState({
                     formattedData: [...this.state.formattedData, stockObject]
                 })
@@ -35,20 +40,20 @@ class DisplayStocks extends React.Component {
                 console.log(err)
                 console.log('you have reached the maxiumum api limit')
             }
-            console.log(this.state.formattedData)
         }
+        this.setState({
+            isLoaded: true
+        })
     }
 
-    componentDidMount = async() => {
-        await this.updateStocks()
+    componentDidMount = () => {
+        this.updateStocks()
     }
 
     formatData = (data) => {
         const newArray = []
-        let num = 0
         const objects = Object.entries(data)
         const formatted = objects.map((group) => {
-            num++
             const split = group[0].split('-')
             const newDate = new Date(split[0], split[1], split[2])
             const high = group[1]["2. high"]
@@ -66,14 +71,123 @@ class DisplayStocks extends React.Component {
         })
         return newArray
     }
+
+    //unwatch the stock
+    removeStock = async(name) => {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/stock/${name}/${this.props.loggedID}`, {
+            method: 'DELETE'
+        })
+        const newData = this.state.formattedData.filter((data) => data.name != name)
+        console.log(newData)
+        this.setState({
+            formattedData: newData
+        })
+    }
  
+    handleChange = (e) => {
+        this.setState({
+        [e.target.name]: [e.target.value]
+        })
+    }
+
+    handleSubmit = async(e) => {
+        e.preventDefault()
+        const stockName = (this.state.name).toString().toUpperCase()
+        console.log(stockName)
+        if (stockName.length < 6) {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/stock/${stockName}/${this.props.loggedID}`, {
+                method: 'POST'
+            })
+            const parsedResponse = await response.json()
+            if (parsedResponse.status === 200) {
+                this.setState({
+                    message: 'Succesfully Added Stock',
+                    name: ''
+                })
+                this.updateStocks()
+            } else {
+                this.setState({
+                    message: parsedResponse.data,
+                    name: ''
+                })
+            }
+            console.log(parsedResponse)
+        // if stock is over 6 letters
+        } else {
+            this.setState({
+                message: 'Please enter a valid stock'
+            })
+        }
+    }
+
     render() {
-          
+        const style= {
+            'background-color': 'rgb(48,48,48',
+            'color': 'white'
+        }
         return (
             <div>
-                <Button color="green" onClick={this.updateStocks}>Update</Button>
-                <Button color="red" onClick={this.formatMethod}>Test</Button>
-                {/* <StockRender formattedData={this.state.formattedData}/> */}
+                { this.state.isLoaded ? 
+                            <Modal trigger={<Segment style={{'background-color': 'rgb(38,38,38)'}} textAlign='center'><Icon name="add" color="green"/></Segment>} style={{'maxWidth': '300px'}}>
+                            <Segment style={style}>
+                                <Header as="h1" textAlign="center" style={style}>
+                                    Add Stock
+                                </Header>
+                                <Header textAlign="center">
+                                    {this.state.message}
+                                </Header>
+                                <Form size="large" onSubmit={this.handleSubmit} required>
+                                        <input
+                                            fluid
+                                            style={{'background-color': 'rgb(38,38,38', 'color': 'white', 'marginBottom':'10px'}}
+                                            icon="money"
+                                            iconPosition='left'
+                                            placeholder='name'
+                                            value={this.state.name}
+                                            onChange={this.handleChange}
+                                            name="name"
+                                            required
+                                        />
+                                    <Button onClick={this.handleSubmit} color="linkedin" fluid size="large">
+                                        Add
+                                    </Button>
+                                </Form>
+                            </Segment>
+                        </Modal>
+                :
+                null 
+                }
+                { this.state.isLoaded ? 
+                       this.state.formattedData.map((data) => {
+                           const indexOfLast = data.data.length-1
+                           const compared = (data.data[indexOfLast].high - (data.data[indexOfLast-1].high)).toFixed(2)
+                        return (
+                        <Segment style={{'background-color': 'rgb(38,38,38)'}} key={data.data[0].high}>
+                        <Header as="h1" color="orange" textAlign="center">{data.name}</Header>
+                        <Header style={{'color': 'white'}} textAlign='center'>Todays High: {data.data[indexOfLast].high}</Header>
+                        <Header color={Math.sign(compared) == '-' ? 'red' : 'green'} textAlign='center'>Difference from last market day high: <span color="green">{compared}</span></Header>
+                        <AreaChart
+                            key={data.name}
+                            width={500}
+                            height={300}
+                            data={data.data}
+                            margin={{
+                            top: 5, right: 30, left: 20, bottom: 5,
+                            }}
+                        >
+                            <CartesianGrid fill="rgb(48,48,48)" />
+                            <XAxis dataKey="date" />
+                            <YAxis allowDataOverflow type="number" domain={[dataMin=> (data.data[0].low - data.data[0].low*.2), 'dataMax + 30']}/>
+                            <Tooltip />
+                            <Legend color="white"/>
+                            <Brush fill="rgb(58,58,58)"/>
+                            <Area type="monotone" dataKey="high" stroke="red" fill="none" />
+                            <Area type="monotone" dataKey="low" stroke="green" fill="green"/>
+                        </AreaChart>
+                        <Button color="red" fluid onClick={()=> this.removeStock(data.name)}>Stop Watching</Button>
+                        </Segment>
+                        )
+                    }): null }
             </div>
         )
     }

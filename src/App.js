@@ -1,10 +1,10 @@
 import React from 'react';
-import { Header, Menu, Segment} from 'semantic-ui-react'
+import { Header, Menu, Segment, Grid, Card} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import './base.css'
-import AddStock from './AddStock.js'
 import DisplayStocks from './DisplayStocks.js'
 import LogRegister from './LogRegister'
+import DisplayUserStocks from './DisplayUserStocks'
 require('dotenv')
 
 
@@ -15,7 +15,9 @@ class App extends React.Component {
       logged: true,
       loggedID: 0, 
       money: 0,
-      notification: []
+      notification: [],
+      formattedData: [],
+      loadeddata: false
     };
   }
   // addStock = async(stockData) => {
@@ -45,20 +47,27 @@ class App extends React.Component {
     }
   }
   render() {
+    const style= {
+      'background-color': 'rgb(48, 48, 48)'
+    }
     return (
         <React.Fragment>
         { this.state.logged ?
         <div>
           <Segment inverted>
-            <Menu inverted pointing secondary>
-              <Menu.Item color="green" name={this.state.money.toString()}/>
-              <Menu.Item position="right" name="friends"/>
-              <AddStock loggedID={this.state.loggedID} />
+            <Menu inverted pointing secondary style={{'fontSize': '15px'}}>
+              <Menu.Item position="right" name={this.state.money.toString()}/>
               <Menu.Item name="Logout" onClick = {this.logout}></Menu.Item>
             </Menu>
           </Segment>
-          <Header>{this.state.notification}</Header>
-          <DisplayStocks loggedID={this.state.loggedID}/>
+          <Grid textAlign="center">
+            { this.state.logged ? 
+            <Segment style={style}>
+              <DisplayStocks loggedID={this.state.loggedID}/>
+            </Segment>
+            :
+            null }
+          </Grid>
         </div>
         :
         <LogRegister login={this.login}/> 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Grid, Header, Segment} from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Segment, Modal} from 'semantic-ui-react'
 
 class LogRegister extends React.Component {
     constructor() {
@@ -81,14 +81,11 @@ class LogRegister extends React.Component {
     }
     render(){
         return(
-            <Grid textAlign="center">
-                <Grid.Column style={{ maxWidth: 400, margin: 40}} verticalAlign="middle">
+            <Modal open={true} style={{'maxWidth': '400px'}}>
                     <Header as="h1" textAlign="center">
                         <span style={{"color": "orange"}}>Nomi</span> {this.state.action ==="login" ? "Login" : "Register" }
                     </Header>
-                    <Header>
-                        {this.state.message}
-                    </Header>
+                    { this.state.message ? <Header textAlign='center'>{this.state.message}</Header> : null}
                     <Button 
                         fluid size="large" 
                         onClick={this.changeAction}> {this.state.action === "login" ? "Not a user? Register here" : "Already a User? Login here" } 
@@ -129,13 +126,14 @@ class LogRegister extends React.Component {
                                 required 
                             />
                         {/* Check if minimum fields have been info */}
+                        { this.state.action === 'register' && this.state.email && this.state.password && this.state.username || this.state.action === 'login' && this.state.username && this.state.password ?
                         <Button onClick={this.handleSubmit} color="orange" fluid size="large">
                             {this.state.action === "login" ? "Login" : "Register"}
                         </Button>
+                        : null }
                         </Form>
                     </Segment>
-                </Grid.Column>
-            </Grid>
+            </Modal>
         )
     }
 }
