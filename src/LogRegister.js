@@ -80,32 +80,41 @@ class LogRegister extends React.Component {
         }
     }
     render(){
+        const style= {
+            'background-color': 'rgb(48, 48, 48)',
+            'color': 'white',
+          }
+        const inputstyle = {
+            'background-color': 'rgb(38, 38, 38)',
+            'color': 'white',
+            'marginBottom': '10px', 
+        }
         return(
-            <Modal open={true} style={{'maxWidth': '400px'}}>
-                    <Header as="h1" textAlign="center">
+            <Modal open={true} style={{'maxWidth': '400px', 'backgroundColor': 'rgb(38,38,38)'}}>
+                    <Header as="h1" textAlign="center" style={style}>
                         <span style={{"color": "orange"}}>Nomi</span> {this.state.action ==="login" ? "Login" : "Register" }
                     </Header>
-                    { this.state.message ? <Header textAlign='center'>{this.state.message}</Header> : null}
+                    { this.state.message ? <Header color="grey" textAlign='center'>{this.state.message}</Header> : null}
                     <Button 
-                        fluid size="large" 
+                        color="grey"
+                        fluid
+                        size="large"
                         onClick={this.changeAction}> {this.state.action === "login" ? "Not a user? Register here" : "Already a User? Login here" } 
                     </Button>
-                    <Segment>
-                        <Form inverted size="large" onSubmit={this.handleSubmit} required>
+                    <Segment  style={style}>
+                        <Form style={style} size="medium" onSubmit={this.handleSubmit} required>
                         { this.state.action === "register" ? 
-                            <Form.Input 
-                            fluid
+                            <input 
+                            style={inputstyle}
                             required
-                            icon="mail"
-                            iconPosition="left"
                             placeholder="email"
                             value={this.state.email}
                             onChange={this.handleChange}
                             name="email"
                             />
                             : null }
-                            <Form.Input    
-                                fluid
+                            <input  
+                                style={inputstyle}
                                 icon='user'
                                 iconPosition='left'
                                 placeholder='username'
@@ -114,8 +123,8 @@ class LogRegister extends React.Component {
                                 name="username"
                                 required
                             />
-                            <Form.Input 
-                                fluid
+                            <input
+                                style={inputstyle}
                                 icon='lock'
                                 type="password"
                                 iconPosition='left'

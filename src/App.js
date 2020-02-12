@@ -42,7 +42,7 @@ class App extends React.Component {
   }
   render() {
     const style= {
-      'background-color': 'rgb(48, 48, 48)'
+      'background-color': 'rgb(48, 48, 48)',
     }
     return (
         <React.Fragment>
