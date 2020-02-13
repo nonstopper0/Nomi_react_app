@@ -1,7 +1,7 @@
 import React from 'react'
-import { Button, Header, Segment, Form, Menu, Modal, Icon, Input, Grid} from 'semantic-ui-react'
+import { Button, Header, Segment, Form, Modal, Icon, Grid} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
-import {Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, AreaChart, Brush, ResponsiveContainer} from 'recharts'
+import {Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Brush, ComposedChart, Line} from 'recharts'
 
 class DisplayStocks extends React.Component {
 
@@ -14,7 +14,7 @@ class DisplayStocks extends React.Component {
             name: '',
             message: '',
             height: 300,
-            width: 500,
+            width: 550,
         }
     }
 
@@ -62,10 +62,14 @@ class DisplayStocks extends React.Component {
         const formatted = objects.map((group) => {
             const split = group[0].split('-')
             const newDate = new Date(split[0], split[1], split[2])
+            const open = group[1]["1. open"]
+            const close = group[1]["4. close"]
             const high = group[1]["2. high"]
             const low = group[1]["3. low"]
             const newOjbect = {
                 date: newDate,
+                open: open,
+                close: close,
                 high: high,
                 low: low
             }
@@ -83,7 +87,7 @@ class DisplayStocks extends React.Component {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/stock/${name}/${this.props.loggedID}`, {
             method: 'DELETE'
         })
-        const newData = this.state.formattedData.filter((data) => data.name != name)
+        const newData = this.state.formattedData.filter((data) => data.name !== name)
         console.log(newData)
         this.setState({
             formattedData: newData
@@ -107,7 +111,7 @@ class DisplayStocks extends React.Component {
             const parsedResponse = await response.json()
             if (parsedResponse.status === 200) {
                 this.setState({
-                    message: 'Succesfully Added Stock',
+                    message: '',
                     name: ''
                 })
                 this.updateStocks()
@@ -117,7 +121,6 @@ class DisplayStocks extends React.Component {
                     name: ''
                 })
             }
-            console.log(parsedResponse)
         // if stock is over 6 letters
         } else {
             this.setState({
@@ -136,7 +139,7 @@ class DisplayStocks extends React.Component {
 
                 {/* this is our modal used for adding stocks to our user and then re-rendering the page to update with that change */}
                 { this.state.isLoaded ? 
-                            <Modal trigger={<Segment style={{'background-color': 'rgb(38,38,38)'}} textAlign='center'><Icon name="add" color="green"/></Segment>} style={{'maxWidth': '300px'}}>
+                            <Modal trigger={<Segment style={{'backgroundColor': 'rgb(38,38,38)'}} textAlign='center'><Icon name="add" color="green"/></Segment>} style={{'maxWidth': '300px'}}>
                             <Segment style={style}>
                                 <Header as="h1" textAlign="center" style={style}>
                                     Add Stock
@@ -146,7 +149,6 @@ class DisplayStocks extends React.Component {
                                 </Header>
                                 <Form size="large" onSubmit={this.handleSubmit} required>
                                         <input
-                                            fluid
                                             style={{'background-color': 'rgb(38,38,38', 'color': 'white', 'marginBottom':'10px'}}
                                             placeholder='name'
                                             value={this.state.name}
@@ -165,27 +167,25 @@ class DisplayStocks extends React.Component {
                 }
 
 
-                <Grid.Row>
                 {/* once our data is confirmed loaded through the apicall setting the loading status to done within state we map through our state to display each stock on the page through ReChart using the new formatted data */}
                 { this.state.isLoaded ? 
                        this.state.formattedData.map((data) => {
                            const indexOfLast = data.data.length-1
-                           const compared = (data.data[indexOfLast].high - (data.data[indexOfLast-1].high)).toFixed(2)
+                           const compared = (data.data[indexOfLast].open - (data.data[indexOfLast-1].close)).toFixed(2)
                         return (
-                        <Grid.Column>
-                            <Segment style={{'backgroundColor': 'rgb(48,48,48)'}} key={data.data[0].high}>
+                            <Segment style={{'backgroundColor': 'rgb(48,48,48)'}} key={data.data[0].close}>
 
-                                <Segment style={{'backgroundColor': 'rgb(38,38,38)'}}>
-                                    <Button color="grey" onClick={()=> this.removeStock(data.name)}>Stop Watching</Button>
+                                <Segment style={{'backgroundColor': 'rgb(38,38,38)', 'height': '64px'}}>
+                                    <Button floated="left" color="grey" onClick={()=> this.removeStock(data.name)}>Stop Watching</Button>
                                     <Button floated="right" circular icon="zoom-in" color="orange" onClick={()=> {this.setState({height: this.state.height+10, width: this.state.width+40})}}></Button>
                                     <Button floated="right" circular icon="zoom-out" color="orange" onClick={()=> {this.setState({height: this.state.height-10, width: this.state.width-40})}}></Button>
                                 </Segment>
                                 <Segment style={{'backgroundColor': 'rgb(38,38,38)'}}>
                                     <Header as="h1" color="orange" textAlign="center">{data.name}</Header>
-                                    <Header style={{'color': 'white'}} textAlign='center'>Todays High: {data.data[indexOfLast].high}</Header>
-                                    <Header color={Math.sign(compared) == '-' ? 'red' : 'green'} textAlign='center'>Difference from last market day high: <span color="green">{compared}</span></Header>
+                                    <Header style={{'color': 'white'}} textAlign='center'>Todays Open: {data.data[indexOfLast].open}</Header>
+                                    <Header color={Math.sign(compared) == '-' ? 'red' : 'green'} textAlign='center'>Difference from last market day close: {compared}</Header>
 
-                                    <AreaChart
+                                    <ComposedChart
                                         key={data.name}
                                         width={this.state.width}
                                         height={this.state.height}
@@ -196,25 +196,25 @@ class DisplayStocks extends React.Component {
                                     >
                                         <CartesianGrid fill="rgb(38,38,38)" />
                                         <XAxis dataKey="date" />
-                                        <YAxis allowDataOverflow type="number" domain={[dataMin=> (data.data[0].low - data.data[0].low*.2), 'dataMax + 30']}/>
+                                        <YAxis allowDataOverflow type="number" domain={[dataMin=> (data.data[0].close - data.data[0].close*.2), 'dataMax + 30']}/>
                                         <Tooltip labelStyle={{'color':'black'}}/>
                                         <Legend formatter={(value, entry) => { 
                                             entry['color'] = 'rgb(120,120,120)'
                                         const { color } = entry; 
                                         return <span style={{color}}>{value}</span>}}/>
-                                        <Brush fill="rgb(58,58,58)"/>
-                                        <Area type="monotone" dataKey="high" stroke="gray" fill="none" />
-                                        <Area type="monotone" dataKey="low" stroke="gray" fill="green"/>
-                                    </AreaChart>
+                                        <Brush  fill="rgb(58,58,58)"/>
+                                        <Bar type="monotone" barSize={10} dataKey="open" fill="orange"  />
+                                        <Bar type="monotone" barSize={10} dataKey="close" fill="gray" />
+                                        <Line dot={false} type="monotone" strokeWidth={2} dataKey="high" stroke="white"></Line>
+                                        <Line dot={false} type="montone" strokeWidth={2} dataKey="low" stroke="gray"></Line>
+                                    </ComposedChart>
                                 </Segment>
                             </Segment>
-                        </Grid.Column>
                         )
                     })
                 : 
                 null 
                 }
-                </Grid.Row>
             </div>
         )
     }

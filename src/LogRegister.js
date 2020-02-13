@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Grid, Header, Segment, Modal} from 'semantic-ui-react'
+import { Button, Form, Header, Segment, Modal} from 'semantic-ui-react'
 
 class LogRegister extends React.Component {
     constructor() {
@@ -81,11 +81,11 @@ class LogRegister extends React.Component {
     }
     render(){
         const style= {
-            'background-color': 'rgb(48, 48, 48)',
+            'backgroundColor': 'rgb(48, 48, 48)',
             'color': 'white',
           }
         const inputstyle = {
-            'background-color': 'rgb(38, 38, 38)',
+            'backgroundColor': 'rgb(38, 38, 38)',
             'color': 'white',
             'marginBottom': '10px', 
         }
@@ -102,7 +102,7 @@ class LogRegister extends React.Component {
                         onClick={this.changeAction}> {this.state.action === "login" ? "Not a user? Register here" : "Already a User? Login here" } 
                     </Button>
                     <Segment  style={style}>
-                        <Form style={style} size="medium" onSubmit={this.handleSubmit} required>
+                        <Form style={style} size="small" onSubmit={this.handleSubmit} required>
                         { this.state.action === "register" ? 
                             <input 
                             style={inputstyle}
@@ -114,9 +114,8 @@ class LogRegister extends React.Component {
                             />
                             : null }
                             <input  
+                                autoComplete="username"
                                 style={inputstyle}
-                                icon='user'
-                                iconPosition='left'
                                 placeholder='username'
                                 value={this.state.username}
                                 onChange={this.handleChange}
@@ -124,15 +123,13 @@ class LogRegister extends React.Component {
                                 required
                             />
                             <input
+                                autoComplete="current-password"
                                 style={inputstyle}
-                                icon='lock'
                                 type="password"
-                                iconPosition='left'
                                 placeholder='password'
                                 value={this.state.password}
                                 onChange={this.handleChange}
                                 name="password"
-                                required 
                             />
                         {/* Check if minimum fields have been info */}
                         { this.state.action === 'register' && this.state.email && this.state.password && this.state.username || this.state.action === 'login' && this.state.username && this.state.password ?

@@ -4,7 +4,7 @@ import 'semantic-ui-css/semantic.min.css'
 import './base.css'
 import DisplayStocks from './DisplayStocks.js'
 import LogRegister from './LogRegister'
-import DisplayUserStocks from './DisplayUserStocks'
+import DisplayMarket from './DisplayMarket'
 require('dotenv')
 
 
@@ -69,13 +69,16 @@ class App extends React.Component {
 
             { /* we dont want to try and render our stocks if the user hasnt logged in and we dont have access to the UserID */ }
             { this.state.logged ? 
-
-            <Segment style={style}>
-              <DisplayStocks loggedID={this.state.loggedID}/>
-            </Segment>
-
+            <Grid.Column style={{'width': 'fit-content'}}>
+                <Segment style={style}>
+                  <DisplayStocks loggedID={this.state.loggedID}/>
+                </Segment>
+            </Grid.Column>
             :
             null }
+            <Grid.Column>
+                <DisplayMarket />
+            </Grid.Column>
 
           </Grid>
         </div>
