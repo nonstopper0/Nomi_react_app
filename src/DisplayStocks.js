@@ -23,63 +23,23 @@ class DisplayStocks extends React.Component {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/stock/all/${this.props.loggedID}`, {
             method: 'GET'
         })
+        // reset state before adding again
         this.setState({
             formattedData: []
         })
         const parsedResponse = await response.json()
-        for (let stock in parsedResponse.data) {
-            try {
-                let stockName = parsedResponse.data[stock]['Meta Data']['2. Symbol']
-                let lastUpdated = parsedResponse.data[stock]['Meta Data']['3. Last Refreshed']
-                let stockData = parsedResponse.data[stock]['Time Series (Daily)']
-                const stockObject = {
-                    name: stockName,
-                    updated: lastUpdated,
-                    data: await this.formatData(stockData)
-                }
-                this.setState({
-                    formattedData: [...this.state.formattedData, stockObject]
-                })
-            } 
-            catch(err) {
-                console.log(err)
-                console.log('you have reached the maxiumum api limit')
-            }
+        if (parsedResponse.status === 200) {
+            this.setState({
+                formattedData: parsedResponse.data,
+                isLoaded: true
+            })
+        } else {
+            console.log(parsedResponse.data)
         }
-        this.setState({
-            isLoaded: true
-        })
     }
 
     componentDidMount = () => {
         this.updateStocks()
-    }
-
-    // turning the raw data that we recieve through our api call and getting it ready for ReChart. 
-    formatData = (data) => {
-        const newArray = []
-        const objects = Object.entries(data)
-        const formatted = objects.map((group) => {
-            const split = group[0].split('-')
-            const newDate = new Date(split[0], split[1], split[2])
-            const open = group[1]["1. open"]
-            const close = group[1]["4. close"]
-            const high = group[1]["2. high"]
-            const low = group[1]["3. low"]
-            const newOjbect = {
-                date: newDate,
-                open: open,
-                close: close,
-                high: high,
-                low: low
-            }
-            newArray.push(newOjbect)
-        })
-        newArray.sort((a, b) => a.date - b.date)
-        newArray.filter((object) => {
-            return object['date'] = `${object['date'].getMonth()}/${object['date'].getDate()}`
-        })
-        return newArray
     }
 
     // remove stock from users list through the un-watch button
@@ -88,7 +48,6 @@ class DisplayStocks extends React.Component {
             method: 'DELETE'
         })
         const newData = this.state.formattedData.filter((data) => data.name !== name)
-        console.log(newData)
         this.setState({
             formattedData: newData
         })
@@ -197,7 +156,7 @@ class DisplayStocks extends React.Component {
                                     >
                                         <CartesianGrid fill="rgb(38,38,38)" />
                                         <XAxis dataKey="date" />
-                                        <YAxis interval={10} allowDataOverflow type="number" domain={[dataMin=> (data.data[0].close - data.data[0].close*.2), 'dataMax + 30']}/>
+                                        <YAxis interval={1} allowDataOverflow type="number" domain={[dataMin=> (data.data[0].close - data.data[0].close*.2), 'dataMax + 30']}/>
                                         <Tooltip labelStyle={{'color':'black'}}/>
                                         <Legend formatter={(value, entry) => { 
                                             entry['color'] = 'rgb(120,120,120)'
