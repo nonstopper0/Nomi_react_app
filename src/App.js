@@ -58,7 +58,7 @@ class App extends React.Component {
         { this.state.logged ?
 
         <div>
-          <Segment inverted>
+          <Segment style={style}>
             <Menu inverted pointing secondary style={{'fontSize': '15px'}}>
               <Menu.Item position="right" name={this.state.money.toString()}/>
               <Menu.Item name="Logout" onClick = {this.logout}></Menu.Item>

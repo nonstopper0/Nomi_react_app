@@ -180,6 +180,7 @@ class DisplayStocks extends React.Component {
                                     <Button floated="right" circular icon="zoom-in" color="orange" onClick={()=> {this.setState({height: this.state.height+10, width: this.state.width+40})}}></Button>
                                     <Button floated="right" circular icon="zoom-out" color="orange" onClick={()=> {this.setState({height: this.state.height-10, width: this.state.width-40})}}></Button>
                                 </Segment>
+
                                 <Segment style={{'backgroundColor': 'rgb(38,38,38)'}}>
                                     <Header as="h1" color="orange" textAlign="center">{data.name}</Header>
                                     <Header style={{'color': 'white'}} textAlign='center'>Todays Open: {data.data[indexOfLast].open}</Header>
@@ -196,17 +197,17 @@ class DisplayStocks extends React.Component {
                                     >
                                         <CartesianGrid fill="rgb(38,38,38)" />
                                         <XAxis dataKey="date" />
-                                        <YAxis allowDataOverflow type="number" domain={[dataMin=> (data.data[0].close - data.data[0].close*.2), 'dataMax + 30']}/>
+                                        <YAxis interval={10} allowDataOverflow type="number" domain={[dataMin=> (data.data[0].close - data.data[0].close*.2), 'dataMax + 30']}/>
                                         <Tooltip labelStyle={{'color':'black'}}/>
                                         <Legend formatter={(value, entry) => { 
                                             entry['color'] = 'rgb(120,120,120)'
                                         const { color } = entry; 
                                         return <span style={{color}}>{value}</span>}}/>
                                         <Brush  fill="rgb(58,58,58)"/>
-                                        <Bar type="monotone" barSize={10} dataKey="open" fill="orange"  />
-                                        <Bar type="monotone" barSize={10} dataKey="close" fill="gray" />
-                                        <Line dot={false} type="monotone" strokeWidth={2} dataKey="high" stroke="white"></Line>
-                                        <Line dot={false} type="montone" strokeWidth={2} dataKey="low" stroke="gray"></Line>
+                                        <Bar type="monotone" barSize={15} dataKey="open" fill="rgb(160,160,160)" fillOpacity={.6} />
+                                        <Bar type="monotone" barSize={15} dataKey="close" fill="rgb(90,90,90)" fillOpacity={.6} />
+                                        <Line dot={false} type="monotone" strokeWidth={1.5} dataKey="high" stroke="rgb(200,200,200)"></Line>
+                                        <Line dot={false} type="montone" strokeWidth={1} dataKey="low" stroke="gray"></Line>
                                     </ComposedChart>
                                 </Segment>
                             </Segment>
