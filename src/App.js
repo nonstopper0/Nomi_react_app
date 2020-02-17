@@ -62,6 +62,7 @@ class App extends React.Component {
             <Menu inverted pointing secondary style={{'fontSize': '15px'}}>
               <Menu.Item position="right" name={this.state.money.toString()}/>
               <Menu.Item name="Logout" onClick = {this.logout}></Menu.Item>
+              <Menu.Item name="Help" onClick={console.log('help in creation')}></Menu.Item>
             </Menu>
           </Segment>
 

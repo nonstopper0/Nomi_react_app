@@ -59,7 +59,7 @@ class DisplayMarket extends React.Component {
                     { this.state.isLoaded ? 
                         this.state.dayMovements.map((movement) => {
                             return (
-                                <List.Item key={movement[0]}>{movement[0]}: <span style={{color: Math.sign(parseFloat(movement[1])) == -1 ? '#E93535' : '#72F03C', 'font-weight': 700}}>{movement[1]}</span></List.Item>
+                                <List.Item key={movement[0]}>{movement[0]}: <span style={{color: Math.sign(parseFloat(movement[1])) === -1 ? '#E93535' : '#72F03C', 'fontWeight': 700}}>{movement[1]}</span></List.Item>
                             )
                         })
                     :
@@ -77,7 +77,7 @@ class DisplayMarket extends React.Component {
                 { this.state.isLoaded ? 
                     this.state.weekMovements.map((movement) => {
                         return (
-                            <List.Item key={movement[0]}>{movement[0]}: <span style={{color: Math.sign(parseFloat(movement[1])) == -1 ? '#E93535' : '#72F03C', 'font-weight': 700}}>{movement[1]}</span></List.Item>
+                            <List.Item key={movement[0]}>{movement[0]}: <span style={{color: Math.sign(parseFloat(movement[1])) === -1 ? '#E93535' : '#72F03C', 'fontWeight': 700}}>{movement[1]}</span></List.Item>
                         )
                     })
                 :
