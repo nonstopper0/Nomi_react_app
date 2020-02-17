@@ -129,8 +129,12 @@ class DisplayStocks extends React.Component {
                 {/* once our data is confirmed loaded through the apicall setting the loading status to done within state we map through our state to display each stock on the page through ReChart using the new formatted data */}
                 { this.state.isLoaded ? 
                        this.state.formattedData.map((data) => {
-                           const indexOfLast = data.data.length-1
-                           const compared = (data.data[indexOfLast].open - (data.data[indexOfLast-1].close)).toFixed(2)
+                        const indexOfLast = data.data.length-1
+                        const compared = (data.data[indexOfLast].open - (data.data[indexOfLast-1].close)).toFixed(2)
+                        let numarray = []
+                        data.data.forEach((data)=> {
+                            numarray.push(data.open)
+                        })
                         return (
                             <Segment style={{'backgroundColor': 'rgb(48,48,48)'}} key={data.data[0].close}>
 
@@ -156,7 +160,7 @@ class DisplayStocks extends React.Component {
                                     >
                                         <CartesianGrid fill="rgb(38,38,38)" />
                                         <XAxis dataKey="date" />
-                                        <YAxis interval={1} allowDataOverflow type="number" domain={[dataMin=> (data.data[0].close - data.data[0].close*.2), 'dataMax + 30']}/>
+                                        <YAxis interval={1} allowDataOverflow type="number" domain={[(data.data[0].low - data.data[0].low*.2), data.data[0].high + data.data[0].high*.6]}/>
                                         <Tooltip labelStyle={{'color':'black'}}/>
                                         <Legend formatter={(value, entry) => { 
                                             entry['color'] = 'rgb(120,120,120)'
