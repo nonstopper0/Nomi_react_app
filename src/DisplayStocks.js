@@ -131,13 +131,19 @@ class DisplayStocks extends React.Component {
                        this.state.formattedData.map((data) => {
                         const indexOfLast = data.data.length-1
                         const compared = (data.data[indexOfLast].open - (data.data[indexOfLast-1].close)).toFixed(2)
+
+                        // find the average number for each stock so i can properly calculate the graphs max height and width properties
                         let numarray = []
                         data.data.forEach((data)=> {
-                            numarray.push(data.open)
+                            numarray.push(Math.floor(data.open))
                         })
+                        let average = 0
+                        for (let i = 0; i < numarray.length; i ++) {
+                            average += numarray[i]
+                        }
+                        average = average/100
                         return (
                             <Segment style={{'backgroundColor': 'rgb(48,48,48)'}} key={data.data[0].close}>
-
                                 <Segment style={{'backgroundColor': 'rgb(38,38,38)', 'height': '64px'}}>
                                     <Button floated="left" color="grey" onClick={()=> this.removeStock(data.name)}>Stop Watching</Button>
                                     <Button floated="right" circular icon="zoom-in" color="orange" onClick={()=> {this.setState({height: this.state.height+10, width: this.state.width+40})}}></Button>
@@ -160,7 +166,7 @@ class DisplayStocks extends React.Component {
                                     >
                                         <CartesianGrid fill="rgb(38,38,38)" />
                                         <XAxis dataKey="date" />
-                                        <YAxis interval={1} allowDataOverflow type="number" domain={[(data.data[0].low - data.data[0].low*.2), data.data[0].high + data.data[0].high*.6]}/>
+                                        <YAxis interval={1} allowDataOverflow type="number" domain={[`dataMin - ${average/2}`, `dataMax + ${average}`]}/>
                                         <Tooltip labelStyle={{'color':'black'}}/>
                                         <Legend formatter={(value, entry) => { 
                                             entry['color'] = 'rgb(120,120,120)'

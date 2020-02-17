@@ -94,7 +94,7 @@ class LogRegister extends React.Component {
                     <Header as="h1" textAlign="center" style={style}>
                         <span style={{"color": "orange"}}>Nomi</span> {this.state.action ==="login" ? "Login" : "Register" }
                     </Header>
-                    { this.state.message ? <Header color="grey" textAlign='center'>{this.state.message}</Header> : null}
+                    { this.state.message ? <Header style={style} textAlign='center'>{this.state.message}</Header> : null}
                     <Button 
                         color="grey"
                         fluid
