@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Segment, Grid} from 'semantic-ui-react'
+import { Menu, Segment, Grid, Modal, Header} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import './base.css'
 import DisplayStocks from './DisplayStocks.js'
@@ -64,13 +64,18 @@ class App extends React.Component {
         { this.state.logged ?
 
         <div>
-          <Segment style={style}>
-            <Menu inverted pointing secondary style={{'fontSize': '15px'}}>
-              <Menu.Item position="right" name={this.state.money.toFixed(0).toString()}/>
-              <Menu.Item name="Logout" onClick = {this.logout}></Menu.Item>
-              <Menu.Item name="Help" onClick={console.log('help in creation')}></Menu.Item>
+            <Menu inverted size="small" pointing secondary style={{'fontSize': '17px', 'backgroundColor': 'rgb(38,38,38)', 'paddingRight': '20px'}}>
+              <Menu.Item style={{'color':'#72F03C'}} icon="money" position="right" name={this.state.money.toFixed(0).toString()}/>
+              <Menu.Item icon="logout" name="Logout" onClick = {this.logout}></Menu.Item>
+              <Modal trigger={ <Menu.Item icon="help" name="Help"></Menu.Item>} style={{'maxWidth': '300px'}}>
+                            <Segment style={style}>
+                                <Header as="h1" textAlign="center" style={style}>
+                                    Help
+                                </Header>
+                              
+                            </Segment>
+                        </Modal>
             </Menu>
-          </Segment>
 
           <Grid textAlign="center" columns={4}>
 

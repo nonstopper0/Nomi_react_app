@@ -43,8 +43,8 @@ class DisplayHistory extends React.Component {
             <Segment style={{'backgroundColor': 'rgb(48,48,48)', 'width': '400px'}} textAlign="left">
                 <Segment style={style}>
                     <Segment style={{'backgroundColor': 'rgb(38,38,38)'}}>
-                        <Button color="orange" style={{'position':'absolute', 'left': '85%'}}onClick={()=> {this.getHistory()}} icon="refresh"></Button>
-                        <Header color="orange">Owned Stocks</Header>
+                        <Button circular color="orange" style={{'position':'absolute', 'left': '85%'}}onClick={()=> {this.getHistory()}} icon="refresh"></Button>
+                        <Header as="h2" style={{'margin': '0px'}} color="orange">Owned Stocks</Header>
                     </Segment>
                         <Segment style={{'backgroundColor': 'rgb(38,38,38)'}}>
                         { this.state.isLoaded ? 
