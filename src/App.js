@@ -5,6 +5,7 @@ import './base.css'
 import DisplayStocks from './DisplayStocks.js'
 import LogRegister from './LogRegister'
 import DisplayMarket from './DisplayMarket'
+import DisplayHistory from './DisplayHistory'
 require('dotenv')
 
 
@@ -17,8 +18,6 @@ class App extends React.Component {
       logged: false,
       loggedID: 0, 
       money: 0,
-      notification: [],
-      formattedData: [],
       loadeddata: false
     };
   }
@@ -29,6 +28,13 @@ class App extends React.Component {
       logged: true,
       loggedID: id,
       money: money
+    })
+  }
+
+  // updating money on the front end (back-end money is still persisnt no matter what number is shown here) so that the user can see what they have left
+  updateMoney = (subtract) => {
+    this.setState({
+      money: this.state.money - subtract
     })
   }
 
@@ -60,19 +66,23 @@ class App extends React.Component {
         <div>
           <Segment style={style}>
             <Menu inverted pointing secondary style={{'fontSize': '15px'}}>
-              <Menu.Item position="right" name={this.state.money.toString()}/>
+              <Menu.Item position="right" name={this.state.money.toFixed(0).toString()}/>
               <Menu.Item name="Logout" onClick = {this.logout}></Menu.Item>
               <Menu.Item name="Help" onClick={console.log('help in creation')}></Menu.Item>
             </Menu>
           </Segment>
 
-          <Grid textAlign="center">
+          <Grid textAlign="center" columns={4}>
+
+            <Grid.Column style={{'width': 'fit-content'}}>
+              <DisplayHistory loggedID={this.state.loggedID}/>
+            </Grid.Column>
 
             { /* we dont want to try and render our stocks if the user hasnt logged in and we dont have access to the UserID */ }
             { this.state.logged ? 
             <Grid.Column style={{'width': 'fit-content'}}>
                 <Segment style={style}>
-                  <DisplayStocks loggedID={this.state.loggedID}/>
+                  <DisplayStocks subtract={this.updateMoney} loggedID={this.state.loggedID}/>
                 </Segment>
             </Grid.Column>
             :

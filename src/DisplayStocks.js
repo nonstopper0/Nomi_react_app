@@ -15,6 +15,8 @@ class DisplayStocks extends React.Component {
             message: '',
             height: 300,
             width: 550,
+            numToBuy: 1,
+            addStockMessage: ''
         }
     }
 
@@ -51,6 +53,39 @@ class DisplayStocks extends React.Component {
         this.setState({
             formattedData: newData
         })
+    }
+
+    buyStock = async(name) => {
+        console.log('buying stock')
+        let stockName = name
+        let numberToBuy = this.state.numToBuy
+        this.setState({
+            numToBuy: 1
+        })
+        let data = {
+            num: numberToBuy,
+            user: this.props.loggedID
+        }
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/stock/buy/${stockName}`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        const parsedResponse = await response.json()
+        if (parsedResponse.status === 400) {
+            this.setState({
+                addStockMessage: parsedResponse.data
+            })
+        } else if (parsedResponse.status === 200) {
+            console.log(parsedResponse)
+            let finalPrice = parseFloat(parsedResponse.data[0]*parsedResponse.data[1]).toFixed(2)
+            this.props.subtract(finalPrice)
+            this.setState({
+                addStockMessage: `Congrats, you have succesfully purchased ${parsedResponse.data[1]} of ${parsedResponse.data[2]} for ${finalPrice}`
+            })
+        }
     }
  
     handleChange = (e) => {
@@ -124,7 +159,14 @@ class DisplayStocks extends React.Component {
                 :
                 null 
                 }
-
+                { this.state.addStockMessage ? 
+                <Modal open style={{'maxWidth': '600px'}}>
+                    <Segment style={style}>
+                        <Header style={{'color':'white'}}>{this.state.addStockMessage}</Header>
+                        <Button color="red" icon="x" onClick={()=> {this.setState({addStockMessage: ''})}}></Button>
+                    </Segment>
+                </Modal> 
+                : null }
 
                 {/* once our data is confirmed loaded through the apicall setting the loading status to done within state we map through our state to display each stock on the page through ReChart using the new formatted data */}
                 { this.state.isLoaded ? 
@@ -135,7 +177,7 @@ class DisplayStocks extends React.Component {
                         // find the average number for each stock so i can properly calculate the graphs max height and width properties
                         let numarray = []
                         data.data.forEach((data)=> {
-                            numarray.push(Math.floor(data.open))
+                            numarray.push(Math.floor(data.close))
                         })
                         let average = 0
                         for (let i = 0; i < numarray.length; i ++) {
@@ -179,6 +221,10 @@ class DisplayStocks extends React.Component {
                                         <Line dot={false} type="montone" strokeWidth={1} dataKey="low" stroke="gray"></Line>
                                     </ComposedChart>
                                 </Segment>
+                                {/* buttons for buying stocks */}
+                                <Button color="orange" icon="minus" onClick={()=> this.state.numToBuy > 0 ? this.setState({numToBuy: this.state.numToBuy-1}) : null}></Button>
+                                <Button color="grey" onClick={()=> this.buyStock(data.name)} content={`buy ${this.state.numToBuy} of ${data.name} for ${(data.data[99].open * this.state.numToBuy).toFixed(2)}`}></Button>
+                                <Button color="orange" icon="add" onClick={()=> this.setState({numToBuy: this.state.numToBuy+1})}></Button>
                             </Segment>
                         )
                     })
