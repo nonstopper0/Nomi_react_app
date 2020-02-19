@@ -1,5 +1,5 @@
 import React from 'react'
-import {Segment, List, Header, Button, Icon} from 'semantic-ui-react'
+import {Segment, List, Header, Button, Icon, Modal} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 require('dotenv')
 
@@ -11,7 +11,8 @@ class DisplayHistory extends React.Component {
         this.state = {
             isLoaded: false,
             data: [],
-            loading: true
+            loading: true,
+            sellStockMessage: ''
         }
     }
     getHistory = async() => {
@@ -56,6 +57,10 @@ class DisplayHistory extends React.Component {
                 this.setState({
                     data: newState
                 })
+            } else {
+                this.setState({
+                    sellStockMessage: parsedResponse.data
+                })
             }
         } catch(err) {
             console.log(err)
@@ -72,6 +77,14 @@ class DisplayHistory extends React.Component {
         }
         return (
         <div>
+             { this.state.sellStockMessage ? 
+                <Modal open style={{'maxWidth': '600px'}}>
+                    <Segment style={style}>
+                        <Header style={{'color':'white'}}>{this.state.sellStockMessage}</Header>
+                        <Button color="red" icon="x" onClick={()=> {this.setState({sellStockMessage: ''})}}></Button>
+                    </Segment>
+                </Modal> 
+                : null }
             <Segment style={{'backgroundColor': 'rgb(48,48,48)', 'width': '400px'}} textAlign="left">
                 <Segment style={style}>
                     <Segment style={{'backgroundColor': 'rgb(38,38,38)'}}>
