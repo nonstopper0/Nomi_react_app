@@ -163,8 +163,10 @@ class DisplayStocks extends React.Component {
                 { this.state.addStockMessage ? 
                 <Modal open style={{'maxWidth': '600px'}}>
                     <Segment style={style}>
+                        <Segment textAlign="center" style={{'backgroundColor': 'rgb(38,38,38)'}}>
                         <Header style={{'color':'white'}}>{this.state.addStockMessage}</Header>
                         <Button color="red" icon="x" onClick={()=> {this.setState({addStockMessage: ''})}}></Button>
+                        </Segment>
                     </Segment>
                 </Modal> 
                 : null }

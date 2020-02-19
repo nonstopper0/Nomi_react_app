@@ -46,16 +46,14 @@ class DisplayHistory extends React.Component {
                 }
             })
             const parsedResponse = await response.json()
-            console.log(parsedResponse)
             if (parsedResponse.status === 200) {
                 const newState = this.state.data.filter((data) => {
-                    console.log(data)
-                    console.log(id)
-                    return data.id != id
+                    return data.id !== id
                 })
                 this.props.add('add', parsedResponse.money)
                 this.setState({
-                    data: newState
+                    data: newState,
+                    sellStockMessage: parsedResponse.data
                 })
             } else {
                 this.setState({
@@ -77,11 +75,13 @@ class DisplayHistory extends React.Component {
         }
         return (
         <div>
-             { this.state.sellStockMessage ? 
+            {this.state.sellStockMessage ? 
                 <Modal open style={{'maxWidth': '600px'}}>
                     <Segment style={style}>
+                        <Segment textAlign="center" style={{'backgroundColor': 'rgb(38,38,38)'}}>
                         <Header style={{'color':'white'}}>{this.state.sellStockMessage}</Header>
                         <Button color="red" icon="x" onClick={()=> {this.setState({sellStockMessage: ''})}}></Button>
+                        </Segment>
                     </Segment>
                 </Modal> 
                 : null }
