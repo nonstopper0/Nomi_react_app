@@ -35,6 +35,7 @@ class DisplayStocks extends React.Component {
                 formattedData: parsedResponse.data,
                 isLoaded: true
             })
+            this.props.updateHistory()
         } else {
             console.log(parsedResponse.data)
         }
@@ -99,7 +100,7 @@ class DisplayStocks extends React.Component {
         const stockName = (this.state.name).toString().toUpperCase()
         console.log(stockName)
         if (stockName.length < 6) {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/stock/${stockName}/${this.props.loggedID}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/stock/add/${stockName}/${this.props.loggedID}`, {
                 method: 'POST'
             })
             const parsedResponse = await response.json()
@@ -143,7 +144,7 @@ class DisplayStocks extends React.Component {
                                 </Header>
                                 <Form size="large" onSubmit={this.handleSubmit} required>
                                         <input
-                                            style={{'background-color': 'rgb(38,38,38', 'color': 'white', 'marginBottom':'10px'}}
+                                            style={{'backgroundColor': 'rgb(38,38,38', 'color': 'white', 'marginBottom':'10px'}}
                                             placeholder='name'
                                             value={this.state.name}
                                             onChange={this.handleChange}

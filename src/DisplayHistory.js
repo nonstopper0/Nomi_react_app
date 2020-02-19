@@ -23,7 +23,6 @@ class DisplayHistory extends React.Component {
                 method: 'GET' 
             })
             const parsedResponse = await response.json()
-            console.log(parsedResponse)
             this.setState({
                 data: parsedResponse.data,
                 isLoaded: true,
@@ -33,9 +32,26 @@ class DisplayHistory extends React.Component {
             console.log(err)
         }
     }
-
-    componentDidMount = async(e) => {
-        await this.getHistory()
+    sell = async(id) => {
+        try {
+            const data = {
+                id: id
+            }
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/stock/sell`, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            const parsedResponse = await response.json()
+            console.log(parsedResponse)
+        } catch(err) {
+            console.log(err)
+        }
+    }
+    componentDidMount() {
+        this.getHistory()
     }
     render() {
         const style = {
@@ -59,11 +75,13 @@ class DisplayHistory extends React.Component {
                                     return (
                                         <Segment key={Math.random()} style={{'backgroundColor': 'rgb(48,48,48)'}}>
                                             <Header color="orange">{action.stock_name}</Header>
+                                            <Button style={{'position':'absolute', 'left': '230px', 'top': '10px'}} icon={action.current_price > action.buy_price ? 'caret up' : 'caret down'} color={action.current_price > action.buy_price ? 'green' : 'red'} content={`%${(((action.current_price - action.buy_price) / action.buy_price)*100).toFixed(1)}`}></Button>
                                             <List>
                                             <List.Item content={`quantity: ${action.quantity}`}></List.Item>
                                             <List.Item content={`purchased at: ${action.buy_price} on ${((action.buy_executed).toString()).substring(0, 10)}`}></List.Item>
-                                            <List.Item content={`current price: ${action.current_price}`}></List.Item>
+                                            <List.Item style={action.current_price > action.buy_price ? {'color':'#72F03C'} : {'color':'#E93535'}} content={`current price: ${action.current_price}`}></List.Item>
                                             </List>
+                                            <Button onClick={() => {this.sell(action.id)}} color="grey" content={`sell ${action.quantity} of ${action.stock_name} for ${(action.quantity * action.current_price).toFixed(2)}`}></Button>
                                         </Segment>
                                     )
                                 }
@@ -71,6 +89,7 @@ class DisplayHistory extends React.Component {
                         :
                         null 
                         }
+                        <p style={{'color': 'rgb(78,78,78)'}}>Does a number look incorrect or the same? try adding the stock to your watchlist, our database might not be updated for that stock today yet!</p>
                     </Segment>
                     :
                     <Icon name="spinner" color="orange" circular></Icon>}

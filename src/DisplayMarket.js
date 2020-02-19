@@ -56,15 +56,15 @@ class DisplayMarket extends React.Component {
                     <Header color="orange" as="h2">Today in the market</Header>
                 </Segment>
                     <Segment style={{'backgroundColor': 'rgb(38,38,38)'}}>
-                    { this.state.isLoaded ? 
-                        this.state.dayMovements.map((movement) => {
-                            return (
-                                <List.Item key={movement[0]}>{movement[0]}: <span style={{color: Math.sign(parseFloat(movement[1])) === -1 ? '#E93535' : '#72F03C', 'fontWeight': 700}}>{movement[1]}</span></List.Item>
-                            )
-                        })
-                    :
-                    null 
-                    }
+                        { this.state.isLoaded ? 
+                            this.state.dayMovements.map((movement) => {
+                                return (
+                                    <List.Item key={movement[0]}>{movement[0]}: <span style={{color: Math.sign(parseFloat(movement[1])) === -1 ? '#E93535' : '#72F03C', 'fontWeight': 700}}>{movement[1]}</span></List.Item>
+                                )
+                            })
+                        :
+                        null 
+                        }
                 </Segment>
             </Segment>
         </Segment>
@@ -74,15 +74,17 @@ class DisplayMarket extends React.Component {
                     <Header color="orange" as="h2">This Week in the market</Header>
                 </Segment>
                 <Segment style={{'backgroundColor': 'rgb(38,38,38)'}}>
-                { this.state.isLoaded ? 
-                    this.state.weekMovements.map((movement) => {
-                        return (
-                            <List.Item key={movement[0]}>{movement[0]}: <span style={{color: Math.sign(parseFloat(movement[1])) === -1 ? '#E93535' : '#72F03C', 'fontWeight': 700}}>{movement[1]}</span></List.Item>
-                        )
-                    })
-                :
-                null 
-                }
+                    { this.state.isLoaded ? 
+                        this.state.weekMovements.map((movement) => {
+                            return (
+                                <List.Item key={movement[0]}>{movement[0]}: <span style={{color: Math.sign(parseFloat(movement[1])) === -1 ? '#E93535' : '#72F03C', 'fontWeight': 700}}>{movement[1]}</span></List.Item>
+                            )
+                        })
+                    :
+                    null 
+                    }
+                    <br></br>
+                    <p style={{'color': 'rgb(78,78,78)'}}>Have any questions about what to do? check out the help tab above</p>
                 </Segment>
             </Segment>
         </Segment>

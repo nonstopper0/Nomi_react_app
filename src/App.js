@@ -51,6 +51,12 @@ class App extends React.Component {
       })
     }
   }
+  // we use this as a middle man between the update stocks and update history components. we do not want the history to load before the stock data is on the page
+  updateHistory = (e) => {
+    this.setState({
+      loadeddata: true
+    })
+  }
 
   // render all components for our app
   render() {
@@ -100,14 +106,18 @@ class App extends React.Component {
           <Grid textAlign="center" columns={4}>
 
             <Grid.Column style={{'width': 'fit-content'}}>
+              { this.state.loadeddata ? 
               <DisplayHistory loggedID={this.state.loggedID}/>
+              :
+              null
+              }
             </Grid.Column>
 
             { /* we dont want to try and render our stocks if the user hasnt logged in and we dont have access to the UserID */ }
             { this.state.logged ? 
             <Grid.Column style={{'width': 'fit-content'}}>
                 <Segment style={style}>
-                  <DisplayStocks subtract={this.updateMoney} loggedID={this.state.loggedID}/>
+                  <DisplayStocks updateHistory={this.updateHistory} subtract={this.updateMoney} loggedID={this.state.loggedID}/>
                 </Segment>
             </Grid.Column>
             :
