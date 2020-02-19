@@ -32,10 +32,16 @@ class App extends React.Component {
   }
 
   // updating money on the front end (back-end money is still persisnt no matter what number is shown here) so that the user can see what they have left
-  updateMoney = (subtract) => {
-    this.setState({
-      money: this.state.money - subtract
-    })
+  updateMoney = (subtract, money) => {
+    if (subtract == 'subtract') {
+      this.setState({
+        money: this.state.money - money
+      })
+    } else {
+      this.setState({
+        money: this.state.money + money
+      })
+    }
   }
 
   // this function is called from the menu listed downbelow, it logs us out on both the front and back-end.
@@ -107,7 +113,7 @@ class App extends React.Component {
 
             <Grid.Column style={{'width': 'fit-content'}}>
               { this.state.loadeddata ? 
-              <DisplayHistory loggedID={this.state.loggedID}/>
+              <DisplayHistory add={this.updateMoney} loggedID={this.state.loggedID}/>
               :
               null
               }

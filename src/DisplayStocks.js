@@ -82,7 +82,7 @@ class DisplayStocks extends React.Component {
         } else if (parsedResponse.status === 200) {
             console.log(parsedResponse)
             let finalPrice = parseFloat(parsedResponse.data[0]*parsedResponse.data[1]).toFixed(2)
-            this.props.subtract(finalPrice)
+            this.props.subtract('subtract', finalPrice)
             this.setState({
                 addStockMessage: `Congrats, you have succesfully purchased ${parsedResponse.data[1]} of ${parsedResponse.data[2]} for ${finalPrice}`
             })

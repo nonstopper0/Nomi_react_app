@@ -46,6 +46,17 @@ class DisplayHistory extends React.Component {
             })
             const parsedResponse = await response.json()
             console.log(parsedResponse)
+            if (parsedResponse.status === 200) {
+                const newState = this.state.data.filter((data) => {
+                    console.log(data)
+                    console.log(id)
+                    return data.id != id
+                })
+                this.props.add('add', parsedResponse.money)
+                this.setState({
+                    data: newState
+                })
+            }
         } catch(err) {
             console.log(err)
         }
