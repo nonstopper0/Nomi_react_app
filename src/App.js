@@ -110,7 +110,7 @@ class App extends React.Component {
             </Menu>
           {/* where all components are displayed */}
           <Grid textAlign="center" columns={4}>
-
+            <Grid.Row>
             <Grid.Column style={{'width': 'fit-content'}}>
               { this.state.loadeddata ? 
               <DisplayHistory add={this.updateMoney} loggedID={this.state.loggedID}/>
@@ -128,10 +128,10 @@ class App extends React.Component {
             </Grid.Column>
             :
             null }
-            <Grid.Column>
+            <Grid.Column style={{'width':'fit-content'}}>
                 <DisplayMarket />
             </Grid.Column>
-
+            </Grid.Row>
           </Grid>
         </div>
 

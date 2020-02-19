@@ -50,7 +50,7 @@ class DisplayMarket extends React.Component {
         }
         return (
             <div>
-        <Segment style={{'backgroundColor': 'rgb(48,48,48)', 'width': '300px'}} textAlign="left">
+        <Segment style={{'backgroundColor': 'rgb(48,48,48)', 'width': '300px'}}>
             <Segment style={style}>
                 <Segment style={{'backgroundColor': 'rgb(38,38,38)'}}>
                     <Header color="orange" as="h2">Today in the market</Header>
@@ -68,7 +68,7 @@ class DisplayMarket extends React.Component {
                 </Segment>
             </Segment>
         </Segment>
-        <Segment style={{'backgroundColor': 'rgb(48,48,48)', 'width': '300px'}} textAlign="left">
+        <Segment style={{'backgroundColor': 'rgb(48,48,48)', 'width': '300px'}}>
             <Segment style={style}>
                 <Segment style={{'backgroundColor': 'rgb(38,38,38)'}}>
                     <Header color="orange" as="h2">This Week in the market</Header>

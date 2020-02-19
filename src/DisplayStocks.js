@@ -14,7 +14,7 @@ class DisplayStocks extends React.Component {
             name: '',
             message: '',
             height: 300,
-            width: 550,
+            width: 500,
             numToBuy: 1,
             addStockMessage: ''
         }
