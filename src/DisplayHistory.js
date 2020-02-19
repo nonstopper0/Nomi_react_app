@@ -1,5 +1,5 @@
 import React from 'react'
-import {Segment, List, Header, Button} from 'semantic-ui-react'
+import {Segment, List, Header, Button, Icon} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 require('dotenv')
 
@@ -10,11 +10,15 @@ class DisplayHistory extends React.Component {
         super()
         this.state = {
             isLoaded: false,
-            data: []
+            data: [],
+            loading: true
         }
     }
     getHistory = async() => {
         try {
+            this.setState({
+                loading: true
+            })
             const response = await fetch(`${process.env.REACT_APP_API_URL}/stock/history/${this.props.loggedID}`, {
                 method: 'GET' 
             })
@@ -22,7 +26,8 @@ class DisplayHistory extends React.Component {
             console.log(parsedResponse)
             this.setState({
                 data: parsedResponse.data,
-                isLoaded: true
+                isLoaded: true,
+                loading: false
             })
         } catch(err) {
             console.log(err)
@@ -46,12 +51,13 @@ class DisplayHistory extends React.Component {
                         <Button circular color="orange" style={{'position':'absolute', 'left': '85%'}}onClick={()=> {this.getHistory()}} icon="refresh"></Button>
                         <Header as="h2" style={{'margin': '0px'}} color="orange">Owned Stocks</Header>
                     </Segment>
+                    { !this.state.loading ? 
                         <Segment style={{'backgroundColor': 'rgb(38,38,38)'}}>
                         { this.state.isLoaded ? 
                             this.state.data.map((action) => {
                                 if (action.isOwned) {
                                     return (
-                                        <Segment style={{'backgroundColor': 'rgb(48,48,48)'}}>
+                                        <Segment key={Math.random()} style={{'backgroundColor': 'rgb(48,48,48)'}}>
                                             <Header color="orange">{action.stock_name}</Header>
                                             <List>
                                             <List.Item content={`quantity: ${action.quantity}`}></List.Item>
@@ -66,6 +72,8 @@ class DisplayHistory extends React.Component {
                         null 
                         }
                     </Segment>
+                    :
+                    <Icon name="spinner" color="orange" circular></Icon>}
                 </Segment>
             </Segment>
         </div>

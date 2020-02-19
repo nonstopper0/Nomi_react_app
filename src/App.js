@@ -55,7 +55,11 @@ class App extends React.Component {
   // render all components for our app
   render() {
     const style= {
-      'background-color': 'rgb(48, 48, 48)',
+      'backgroundColor': 'rgb(48, 48, 48)',
+    }
+    const pstyle = {
+      'color':'white',
+      'fontSize': '16px'
     }
     return (
         <React.Fragment>
@@ -65,18 +69,34 @@ class App extends React.Component {
 
         <div>
             <Menu inverted size="small" pointing secondary style={{'fontSize': '17px', 'backgroundColor': 'rgb(38,38,38)', 'paddingRight': '20px'}}>
+              <Menu.Item name="NOMI" style={{'position': 'absolute', 'color':'darkorange', 'left': '20px', 'top': '-8px', 'fontWeight': 'bold', 'fontSize': '25px'}}></Menu.Item>
               <Menu.Item style={{'color':'#72F03C'}} icon="money" position="right" name={this.state.money.toFixed(0).toString()}/>
-              <Menu.Item icon="logout" name="Logout" onClick = {this.logout}></Menu.Item>
+              <Menu.Item icon="log out" name="Logout" onClick = {this.logout}></Menu.Item>
               <Modal trigger={ <Menu.Item icon="help" name="Help"></Menu.Item>} style={{'maxWidth': '300px'}}>
-                            <Segment style={style}>
-                                <Header as="h1" textAlign="center" style={style}>
-                                    Help
-                                </Header>
-                              
-                            </Segment>
-                        </Modal>
+                  <Segment style={{'backgroundColor': 'rgb(48,48,48)', 'width': '400px'}}>
+                    <Header as="h1" textAlign="center" style={{'color':'white'}}>Welcome to <span style={{"color": "orange"}}>Nomi</span></Header>
+                    <Segment style={{'backgroundColor':'rgb(38,38,38)', 'color': 'orange'}}>
+                                  <p style={pstyle}>
+                                  <br></br>
+                                  Nomi is a mock-trading app based on real data pulled from wall-steet</p><br></br>
+                                  <h3>Watch-List</h3>
+                                  <br></br>
+                                  <p style={pstyle}>
+                                  The use is simple, To add stocks to your watchlist (maximum of 5 at one time). Simply click the green addition button at the top of your page. If you would like to stop watching a stock, Simply click the 'stop watching' button.</p><br></br><br></br>
+                                  <h3>Buying and selling</h3>
+                                  <br></br>
+                                  <p style={pstyle}>
+                                  You can buy and sell stocks based off the open price of the stock each day. this is not a live trading app. it is meant for long term trading gains instead of quick trades. to view your currently owned stocks simply look at the left panel to see all the data related to stocks owned. You can buy stocks off of your watchlist then remove from watchlist without affecting your ownership etc... </p><br></br><br></br>
+                                  <h3>Have any suggestions or bugs?</h3>
+                                  <br></br>
+                                  <p style={pstyle}>
+                                  Please contact the owner at: Nathanielredmon@gmail.com
+                                  </p>
+                    </Segment>
+                  </Segment>
+              </Modal>
             </Menu>
-
+          {/* where all components are displayed */}
           <Grid textAlign="center" columns={4}>
 
             <Grid.Column style={{'width': 'fit-content'}}>
