@@ -88,22 +88,22 @@ class App extends React.Component {
                   <Segment style={{'backgroundColor': 'rgb(48,48,48)', 'width': '400px'}}>
                     <Header as="h1" textAlign="center" style={{'color':'white'}}>Welcome to <span style={{"color": "orange"}}>Nomi</span></Header>
                     <Segment style={{'backgroundColor':'rgb(38,38,38)', 'color': 'orange'}}>
-                                  <p style={pstyle}>
-                                  <br></br>
-                                  Nomi is a mock-trading app based on real data pulled from wall-steet</p><br></br>
-                                  <h3>Watch-List</h3>
-                                  <br></br>
-                                  <p style={pstyle}>
-                                  The use is simple, To add stocks to your watchlist (maximum of 5 at one time). Simply click the green addition button at the top of your page. If you would like to stop watching a stock, Simply click the 'stop watching' button.</p><br></br><br></br>
-                                  <h3>Buying and selling</h3>
-                                  <br></br>
-                                  <p style={pstyle}>
-                                  You can buy and sell stocks based off the open price of the stock each day. this is not a live trading app. it is meant for long term trading gains instead of quick trades. to view your currently owned stocks simply look at the left panel to see all the data related to stocks owned. You can buy stocks off of your watchlist then remove from watchlist without affecting your ownership etc... </p><br></br><br></br>
-                                  <h3>Have any suggestions or bugs?</h3>
-                                  <br></br>
-                                  <p style={pstyle}>
-                                  Please contact the owner at: Nathanielredmon@gmail.com
-                                  </p>
+                      <p style={pstyle}>
+                      <br></br>
+                      Nomi is a mock-trading app based on real data pulled from wall-steet</p><br></br>
+                      <h3>Watch-List</h3>
+                      <br></br>
+                      <p style={pstyle}>
+                      The use is simple, To add stocks to your watchlist (maximum of 5 at one time). Simply click the green addition button at the top of your page. If you would like to stop watching a stock, Simply click the 'stop watching' button.</p><br></br><br></br>
+                      <h3>Buying and selling</h3>
+                      <br></br>
+                      <p style={pstyle}>
+                      You can buy and sell stocks based off the open price of the stock each day. this is not a live trading app. it is meant for long term trading gains instead of quick trades. to view your currently owned stocks simply look at the left panel to see all the data related to stocks owned. You can buy stocks off of your watchlist then remove from watchlist without affecting your ownership etc... </p><br></br><br></br>
+                      <h3>Have any suggestions or bugs?</h3>
+                      <br></br>
+                      <p style={pstyle}>
+                      Please contact the owner at: Nathanielredmon@gmail.com
+                      </p>
                     </Segment>
                   </Segment>
               </Modal>

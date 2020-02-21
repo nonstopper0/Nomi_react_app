@@ -24,11 +24,15 @@ class DisplayHistory extends React.Component {
                 method: 'GET' 
             })
             const parsedResponse = await response.json()
-            this.setState({
-                data: parsedResponse.data,
-                isLoaded: true,
-                loading: false
-            })
+            if (parsedResponse.status == 200) {
+                this.setState({
+                    data: parsedResponse.data,
+                    isLoaded: true,
+                    loading: false
+                })               
+            } else {
+                console.log('no data')
+            }
         } catch(err) {
             console.log(err)
         }
