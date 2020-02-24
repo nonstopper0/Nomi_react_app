@@ -175,7 +175,7 @@ class DisplayStocks extends React.Component {
                 { this.state.isLoaded ? 
                        this.state.formattedData.map((data) => {
                         const indexOfLast = data.data.length-1
-                        const compared = (data.data[indexOfLast].open - (data.data[indexOfLast-1].close)).toFixed(2)
+                        const compared = (data.data[indexOfLast].open - (data.data[indexOfLast-1].open)).toFixed(2)
 
                         // find the average number for each stock so i can properly calculate the graphs max height and width properties
                         let numarray = []
