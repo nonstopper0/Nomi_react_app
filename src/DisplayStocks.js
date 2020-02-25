@@ -198,7 +198,7 @@ class DisplayStocks extends React.Component {
                                 <Segment style={{'backgroundColor': 'rgb(38,38,38)'}}>
                                     <Header as="h1" color="orange" textAlign="center">{data.name}</Header>
                                     <Header style={{'color': 'white'}} textAlign='center'>Todays Open: {data.data[indexOfLast].open}</Header>
-                                    <Header color={Math.sign(compared) === -1 ? 'red' : 'green'} textAlign='center'>{Math.sign(compared) === -1 ? 'Down': 'Up'} from last market day close: {compared}</Header>
+                                    <Header color={Math.sign(compared) === -1 ? 'red' : 'green'} textAlign='center'>{Math.sign(compared) === -1 ? 'Down': 'Up'} from last market day Open: {compared}</Header>
 
                                     <ComposedChart
                                         key={data.name}
