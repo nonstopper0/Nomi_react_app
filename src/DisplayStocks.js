@@ -225,9 +225,11 @@ class DisplayStocks extends React.Component {
                                     </ComposedChart>
                                 </Segment>
                                 {/* buttons for buying stocks */}
+                                <Segment style={{'backgroundColor': 'rgb(38,38,38)', 'margin': '0 auto', 'textAlign': 'center'}}>
                                 <Button color="orange" icon="minus" onClick={()=> this.state.numToBuy > 0 ? this.setState({numToBuy: this.state.numToBuy-1}) : null}></Button>
                                 <Button color="grey" onClick={()=> this.buyStock(data.name)} content={`buy ${this.state.numToBuy} of ${data.name} for ${(data.data[99].open * this.state.numToBuy).toFixed(2)}`}></Button>
                                 <Button color="orange" icon="add" onClick={()=> this.setState({numToBuy: this.state.numToBuy+1})}></Button>
+                                </Segment>
                             </Segment>
                         )
                     })
