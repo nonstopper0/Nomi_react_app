@@ -109,30 +109,28 @@ class App extends React.Component {
               </Modal>
             </Menu>
           {/* where all components are displayed */}
-          <Grid textAlign="center" columns={4}>
-            <Grid.Row>
-            <Grid.Column style={{'width': 'fit-content'}}>
+          <div style={{'display': 'flex', 'width': 'fit-content', 'margin': '0 auto'}} columns={3}>
+            <div style={{'width': 'fit-content', 'marginRight': 30}}>
               { this.state.loadeddata ? 
               <DisplayHistory add={this.updateMoney} loggedID={this.state.loggedID}/>
               :
               null
               }
-            </Grid.Column>
+            </div>
 
             { /* we dont want to try and render our stocks if the user hasnt logged in and we dont have access to the UserID */ }
             { this.state.logged ? 
-            <Grid.Column style={{'width': 'fit-content'}}>
+            <div style={{'width': 'fit-content', 'marginRight': 30}}>
                 <Segment style={style}>
                   <DisplayStocks updateHistory={this.updateHistory} subtract={this.updateMoney} loggedID={this.state.loggedID}/>
                 </Segment>
-            </Grid.Column>
+            </div>
             :
             null }
-            <Grid.Column style={{'width':'fit-content'}}>
+            <div style={{'width':'fit-content', 'margin': '0 auto'}}>
                 <DisplayMarket />
-            </Grid.Column>
-            </Grid.Row>
-          </Grid>
+            </div>
+          </div>
         </div>
 
         :

@@ -89,7 +89,7 @@ class DisplayHistory extends React.Component {
                     </Segment>
                 </Modal> 
                 : null }
-            <Segment style={{'backgroundColor': 'rgb(48,48,48)', 'width': '400px'}} textAlign="left">
+            <Segment style={{'backgroundColor': 'rgb(48,48,48)', 'width': '350px'}} textAlign="left">
                 <Segment style={style}>
                     <Segment style={{'backgroundColor': 'rgb(38,38,38)'}}>
                         <Button circular color="orange" style={{'position':'absolute', 'left': '85%'}}onClick={()=> {this.getHistory()}} icon="refresh"></Button>
@@ -103,7 +103,7 @@ class DisplayHistory extends React.Component {
                                     return (
                                         <Segment key={Math.random()} style={{'backgroundColor': 'rgb(48,48,48)'}}>
                                             <Header color="orange">{action.stock_name}</Header>
-                                            <Button style={{'position':'absolute', 'left': '230px', 'top': '10px'}} icon={action.current_price > action.buy_price ? 'caret up' : 'caret down'} color={action.current_price > action.buy_price ? 'green' : 'red'} content={`%${(((action.current_price - action.buy_price) / action.buy_price)*100).toFixed(1)}`}></Button>
+                                            <Button style={{'position':'absolute', 'left': '160px', 'top': '10px'}} icon={action.current_price > action.buy_price ? 'caret up' : 'caret down'} color={action.current_price > action.buy_price ? 'green' : 'red'} content={`%${(((action.current_price - action.buy_price) / action.buy_price)*100).toFixed(1)}`}></Button>
                                             <List>
                                             <List.Item content={`quantity: ${action.quantity}`}></List.Item>
                                             <List.Item content={`purchased at: ${action.buy_price} on ${((action.buy_executed).toString()).substring(0, 10)}`}></List.Item>
@@ -117,7 +117,7 @@ class DisplayHistory extends React.Component {
                         :
                         null 
                         }
-                        <p style={{'color': 'rgb(78,78,78)'}}>Does a number look incorrect or the same? try adding the stock to your watchlist, our database might not be updated for that stock today yet!</p>
+                        <p style={{'color': 'rgb(78,78,78)'}}>Dont see your purchased stock yet? Try clicking the refresh button located next to 'Owned Stocks'. <br></br><br></br>If a number looks incorrect. Add the stock to your watchlist, our database might not be updated for that stock today yet!</p>
                     </Segment>
                     :
                     <Icon name="spinner" color="orange" circular></Icon>}
