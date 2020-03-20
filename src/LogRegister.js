@@ -66,6 +66,18 @@ class LogRegister extends React.Component {
             })
         }
     }
+    guest = async() => {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/guest`, {
+            method: 'POST',
+            body: JSON.stringify({"username": "guest", "password": "guest"}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        const parsedGuestResponse = await response.json()
+        console.log(parsedGuestResponse)
+        this.props.login(parsedGuestResponse.data, parsedGuestResponse.money)
+    }
     changeAction = (e) => {
         if (this.state.action === "login") {
             this.setState({
@@ -81,27 +93,27 @@ class LogRegister extends React.Component {
     }
     render(){
         const style= {
-            'backgroundColor': 'rgb(48, 48, 48)',
+            'backgroundColor': 'rgb(38, 38, 38)',
             'color': 'white',
+            'textAlign': 'center',
+            'margin': '0'
           }
         const inputstyle = {
-            'backgroundColor': 'rgb(38, 38, 38)',
+            'backgroundColor': 'rgb(28, 28, 28)',
             'color': 'white',
             'marginBottom': '10px', 
         }
         return(
-            <Modal open={true} style={{'maxWidth': '400px', 'backgroundColor': 'rgb(38,38,38)'}}>
+            <Modal open={true} style={{'maxWidth': '400px', 'backgroundColor': 'rgb(48,48,48)', 'borderRadius': 30, 'textAlign': 'center'}}>
                     <Header as="h1" textAlign="center" style={style}>
                         <span style={{"color": "orange"}}>Nomi</span> {this.state.action ==="login" ? "Login" : "Register" }
                     </Header>
                     { this.state.message ? <Header style={style} textAlign='center'>{this.state.message}</Header> : null}
-                    <Button 
-                        color="grey"
-                        fluid
-                        size="large"
-                        onClick={this.changeAction}> {this.state.action === "login" ? "Not a user? Register here" : "Already a User? Login here" } 
-                    </Button>
                     <Segment  style={style}>
+                        <Button
+                            style={{'width': '370px', 'marginBottom': '10px', 'backgroundColor': 'rgb(59,59,59)', 'color': 'white'}}
+                            onClick={this.changeAction}> {this.state.action === "login" ? "Not a user? Register here" : "Already a User? Login here" } 
+                        </Button>
                         <Form style={style} size="small" onSubmit={this.handleSubmit} required>
                         { this.state.action === "register" ? 
                             <input 
@@ -138,6 +150,9 @@ class LogRegister extends React.Component {
                         </Button>
                         : null }
                         </Form>
+                        <Button onClick={()=>this.guest()} fluid color="grey" style={{'marginTop': 20, 'backgroundColor': 'rgb(38,38,38)', 'color': 'grey'}}>
+                            Login with Guest account?
+                        </Button>
                     </Segment>
             </Modal>
         )
