@@ -4,6 +4,8 @@ This Application is a mock trading app based on Day to day trading with real dat
 <br><br>
 Users can:
 <br>
+Create an account / login
+<br>
 Add stocks to their watchlist
 <br>
 Remove stocks from their watchlist
