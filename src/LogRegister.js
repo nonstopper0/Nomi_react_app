@@ -13,11 +13,25 @@ class LogRegister extends React.Component {
             loading: false
         }
     }
+
+    componentDidMount = (e) => {
+        let id = localStorage.getItem('nomi-id')
+        let code = localStorage.getItem('nomi-code')
+
+        if (code && id) {
+            this.login({
+                username: id,
+                password: code
+            }, true)
+        }
+    }
+
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         })
     }
+
     handleSubmit = (e) => {
         e.preventDefault()
         if (this.state.action === 'login') {
@@ -33,6 +47,7 @@ class LogRegister extends React.Component {
             })
         }
     }
+
     register = async (info) => {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/register`, {
             method: 'POST',
@@ -50,10 +65,12 @@ class LogRegister extends React.Component {
             })
             return
         }
-        
+
+        this.storeData()
         this.props.login(parsedRegisterResponse.data, parsedRegisterResponse.money)
     }
-    login = async (info) => {
+
+    login = async (info, cache) => {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
             method: 'POST',
             body: JSON.stringify(info),
@@ -71,8 +88,18 @@ class LogRegister extends React.Component {
             return
         }
 
+        if (!cache) {
+            this.storeData()
+        }
+        
         this.props.login(parsedLoginResponse.data, parsedLoginResponse.money)
     }
+
+    storeData = async() => {
+        localStorage.setItem('nomi-id', this.state.username.toLowerCase())
+        localStorage.setItem('nomi-code', this.state.password)
+    }
+
     guest = async() => {
         this.setState({
             loading: true
@@ -91,6 +118,7 @@ class LogRegister extends React.Component {
             loading: false
         })
     }
+
     changeAction = (e) => {
         if (this.state.action === "login") {
             this.setState({
@@ -104,6 +132,7 @@ class LogRegister extends React.Component {
             })
         }
     }
+
     render(){
         const style= {
             'backgroundColor': 'rgb(38, 38, 38)',
