@@ -9,3 +9,16 @@ body {
     text-align: center;
     font-weight: bold;
 }
+
+.logging-in {
+    animation: logging 1s infinite linear;
+}
+
+@keyframes logging {
+    from {
+        opacity: .5;
+    } 
+    to {
+        opacity: 1;
+    }
+}

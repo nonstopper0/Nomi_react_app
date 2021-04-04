@@ -196,7 +196,7 @@ class LogRegister extends React.Component {
                         {/* Check if minimum fields have been info */}
                         { this.state.action === 'register' && this.state.email && this.state.password && this.state.username || this.state.action === 'login' && this.state.username && this.state.password ?
                         <Button onClick={this.handleSubmit} color="orange" fluid size="large">
-                            { this.state.loading ? "Logging in..." : this.state.action === "login" ? "Login" : "Register"}
+                            { this.state.loading ? <p className="logging-in">Logging in...</p> : this.state.action === "login" ? "Login" : "Register"}
                         </Button>
                         : null }
                         </Form>

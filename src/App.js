@@ -79,7 +79,7 @@ class App extends React.Component {
         <React.Fragment>
 
           <div className="deprecated">
-              <p>As of 06/10/20 this website has been deprecated. If you see any bugs please know that it is due to the nature of ever changing apis. Thank you for visiting!</p>
+              <p>As of 02/10/20 this website has been deprecated. If you see any bugs please know that it is due to the nature of ever changing apis. Thank you for visiting!</p>
           </div>
 
         { /* 
