@@ -9,7 +9,8 @@ class LogRegister extends React.Component {
             password: '',
             email: '',
             action: 'login',
-            message: ''
+            message: '',
+            loading: false
         }
     }
     handleChange = (e) => {
@@ -40,14 +41,17 @@ class LogRegister extends React.Component {
                 'Content-Type': 'application/json'
             }
         }) 
+
         const parsedRegisterResponse = await response.json() 
-        if (parsedRegisterResponse.status === 200) {
-            this.props.login(parsedRegisterResponse.data, parsedRegisterResponse.money)
-        } else {
+
+        if (parsedRegisterResponse.status !== 200) {
             this.setState({
                 message: 'Register failed, Username or email already taken'
             })
+            return
         }
+        
+        this.props.login(parsedRegisterResponse.data, parsedRegisterResponse.money)
     }
     login = async (info) => {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
@@ -57,16 +61,22 @@ class LogRegister extends React.Component {
                 'Content-Type': 'application/json'
             }
         })
+
         const parsedLoginResponse = await response.json()
-        if (parsedLoginResponse.status === 200) {
-            this.props.login(parsedLoginResponse.data, parsedLoginResponse.money)
-        } else {
+
+        if (parsedLoginResponse.status !== 200) {
             this.setState({
-                message: 'Login failed, Wrong username or password'
+                message: 'Login failed, Wrong username or password',
             })
+            return
         }
+
+        this.props.login(parsedLoginResponse.data, parsedLoginResponse.money)
     }
     guest = async() => {
+        this.setState({
+            loading: true
+        })
         const response = await fetch(`${process.env.REACT_APP_API_URL}/guest`, {
             method: 'POST',
             body: JSON.stringify({"username": "guest", "password": "guest"}),
@@ -77,6 +87,9 @@ class LogRegister extends React.Component {
         const parsedGuestResponse = await response.json()
         console.log(parsedGuestResponse)
         this.props.login(parsedGuestResponse.data, parsedGuestResponse.money)
+        this.setState({
+            loading: false
+        })
     }
     changeAction = (e) => {
         if (this.state.action === "login") {

@@ -76,7 +76,14 @@ class App extends React.Component {
     return (
         <React.Fragment>
 
-        { /* wrap our whole app within the logged ternary operator. providing zero access to the website without a state as logged */ }
+          <div className="deprecated">
+
+          </div>
+
+        { /* 
+        wrap our whole app within the logged ternary operator. providing zero access to the website without a state as logged  
+        UPDATE 2021: This is a pretty poor idea and logical way of doing this even though it works.
+         */ }
         { this.state.logged ?
 
         <div>
