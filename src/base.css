@@ -2,3 +2,10 @@
 body {
     background-color: rgb(28, 28, 28);
 }
+
+.deprecated {
+    background-color: red;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+}

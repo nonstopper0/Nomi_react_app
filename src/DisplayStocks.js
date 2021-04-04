@@ -211,7 +211,7 @@ class DisplayStocks extends React.Component {
                                     >
                                         <CartesianGrid fill="rgb(38,38,38)" />
                                         <XAxis dataKey="date" />
-                                        <YAxis interval={1} allowDataOverflow type="number" domain={[`dataMin - ${average/2}`, `dataMax + ${average}`]}/>
+                                        <YAxis interval={1} allowDataOverflow type="number" domain={[]}/>
                                         <Tooltip labelStyle={{'color':'black'}}/>
                                         <Legend formatter={(value, entry) => { 
                                             entry['color'] = 'rgb(120,120,120)'

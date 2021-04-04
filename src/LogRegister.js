@@ -15,6 +15,7 @@ class LogRegister extends React.Component {
     }
 
     componentDidMount = (e) => {
+        // yes this is a horrific way of securing data. But this is a portfolio application and not meant to be near any production. I just want to make it easier for people to view the application without having to login everytime
         let id = localStorage.getItem('nomi-id')
         let code = localStorage.getItem('nomi-code')
 
@@ -49,6 +50,7 @@ class LogRegister extends React.Component {
     }
 
     register = async (info) => {
+        this.setState({loading: true})
         const response = await fetch(`${process.env.REACT_APP_API_URL}/register`, {
             method: 'POST',
             body: JSON.stringify(info),
@@ -68,9 +70,11 @@ class LogRegister extends React.Component {
 
         this.storeData()
         this.props.login(parsedRegisterResponse.data, parsedRegisterResponse.money)
+        this.setState({loading: false})
     }
 
     login = async (info, cache) => {
+        this.setState({loading: true})
         const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
             method: 'POST',
             body: JSON.stringify(info),
@@ -91,15 +95,18 @@ class LogRegister extends React.Component {
         if (!cache) {
             this.storeData()
         }
-        
+
         this.props.login(parsedLoginResponse.data, parsedLoginResponse.money)
+        this.setState({loading: false})
     }
 
     storeData = async() => {
         localStorage.setItem('nomi-id', this.state.username.toLowerCase())
         localStorage.setItem('nomi-code', this.state.password)
-    }
+    }  
 
+
+    // Replaces the login and register function and logs in the user as a guest
     guest = async() => {
         this.setState({
             loading: true
@@ -114,6 +121,7 @@ class LogRegister extends React.Component {
         const parsedGuestResponse = await response.json()
         console.log(parsedGuestResponse)
         this.props.login(parsedGuestResponse.data, parsedGuestResponse.money)
+        this.storeData()
         this.setState({
             loading: false
         })
@@ -188,7 +196,7 @@ class LogRegister extends React.Component {
                         {/* Check if minimum fields have been info */}
                         { this.state.action === 'register' && this.state.email && this.state.password && this.state.username || this.state.action === 'login' && this.state.username && this.state.password ?
                         <Button onClick={this.handleSubmit} color="orange" fluid size="large">
-                            {this.state.action === "login" ? "Login" : "Register"}
+                            { this.state.loading ? "Logging in..." : this.state.action === "login" ? "Login" : "Register"}
                         </Button>
                         : null }
                         </Form>

@@ -46,7 +46,9 @@ class App extends React.Component {
 
   // this function is called from the menu listed downbelow, it logs us out on both the front and back-end.
   logout = async(e) => {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/logout`, {
+    localStorage.removeItem('nomi-id')
+    localStorage.removeItem('nomi-code')
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/logout`, {
         method: 'GET'
     })
     const parsedResponse = await response.json()
@@ -77,7 +79,7 @@ class App extends React.Component {
         <React.Fragment>
 
           <div className="deprecated">
-
+              <p>As of 06/10/20 this website has been deprecated. If you see any bugs please know that it is due to the nature of ever changing apis. Thank you for visiting!</p>
           </div>
 
         { /* 
@@ -88,7 +90,7 @@ class App extends React.Component {
 
         <div>
             <Menu inverted size="small" pointing secondary style={{'fontSize': '17px', 'backgroundColor': 'rgb(38,38,38)', 'paddingRight': '20px'}}>
-              <Menu.Item name="NOMI" style={{'position': 'absolute', 'color':'darkorange', 'left': '20px', 'top': '-8px', 'fontWeight': 'bold', 'fontSize': '25px'}}></Menu.Item>
+              <Menu.Item name="NOMI" style={{'padding': '0px', 'color':'darkorange', 'left': '20px', 'top': '-8px', 'fontWeight': 'bold', 'fontSize': '25px'}}></Menu.Item>
               <Menu.Item style={{'color':'#72F03C'}} icon="money" position="right" name={this.state.money.toFixed(0).toString()}/>
               <Menu.Item icon="log out" name="Logout" onClick = {this.logout}></Menu.Item>
               <Modal trigger={ <Menu.Item icon="help" name="Help"></Menu.Item>} style={{'maxWidth': '300px'}}>
